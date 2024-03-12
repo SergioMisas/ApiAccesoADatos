@@ -7,6 +7,7 @@ from src.models.task import Task
 from uuid import UUID
 
 from src.managers.mongo_manager import MongoManager
+from src.managers.maria_manager import MariaManager
 
 
 app = FastAPI()
@@ -17,7 +18,7 @@ db_election = os.getenv("DB")
 if db_election == "mongo":
     manager = MongoManager(os.getenv("DBUSER"), os.getenv("DBPWD"))
 elif db_election == "mariadb":
-    pass
+    manager = MariaManager(os.getenv("DBUSER"), os.getenv("DBPWD"), os.getenv("MARIA"))
 
 
 @app.get("/")

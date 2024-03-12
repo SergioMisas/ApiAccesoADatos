@@ -33,10 +33,14 @@ services:
     ports:
       - 3306:3306
     environment:
-      - MYSQL_ROOT_PASSWORD=root
-      - MYSQL_DATABASE=app
+      - MYSQL_ROOT_USER=${MARIA_ROOT_USER}
+      - MYSQL_ROOT_PASSWORD=${MARIA_ROOT_PASSWORD}
+      - MYSQL_DATABASE=${MARIA_DATABASE}
+    volumes:
+      - mariadb_data:/var/lib/mysql
 
 volumes:
   mongo_data:
+  mariadb_data:
 
 

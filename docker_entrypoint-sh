@@ -1,0 +1,28 @@
+#!/bin/bash
+set -e
+
+# Run the MySQL setup script to create the user and task tables
+mysql -u"$MARIA_ROOT_USER" -p"$MARIA_ROOT_PASSWORD" "$MARIA_DATABASE" <<-EOSQL
+    CREATE DATABASE IF NOT EXISTS $MARIA_DATABASE;
+
+    USE $MARIA_DATABASE;
+
+    CREATE TABLE IF NOT EXISTS user (
+        id VARCHAR(255) NOT NULL PRIMARY KEY,
+        password VARCHAR(255) NOT NULL
+    );
+
+    CREATE TABLE IF NOT EXISTS task (
+        id INT AUTO_INCREMENT PRIMARY KEY,
+        user VARCHAR(255) NOT NULL,
+        text VARCHAR(501) NOT NULL,
+        created_at VARCHAR(100) NOT NULL,
+        updated_at VARCHAR(100) NOT NULL,
+        checked BOOLEAN NOT NULL,
+        important BOOLEAN NOT NULL,
+        FOREIGN KEY (user) REFERENCES user(id)
+    );
+EOSQL
+
+# Start the MariaDB service
+exec "$@"
